@@ -4,7 +4,7 @@
  * course: MSCS 630L
  * assignment: lab 1 - intro to cryptography
  * due date: January 23rd, 2022
- * version: 1.1
+ * version: 1.2
  *
  * This file contains code to 'encrypt' a plaintext message into
  * an array of integers.
@@ -24,10 +24,11 @@ public class Driver_lab1 {
   /**
    * main
    *
-   * This function takes input line by line and
-   * runs it through the 'str2int' function as per
-   * lab instructions.
-   * @param args
+   * This function takes input line by line from
+   * a file and runs it through the 'str2int'
+   * function as per lab instructions.
+   * @param args: Array of Strings argument list to be
+   *            passed in from the command line.
    */
   public static void main(String[] args) {
     Scanner input = new Scanner (System.in);
@@ -44,7 +45,7 @@ public class Driver_lab1 {
    * it into an array of Integers.
    * A-Z = 0-25, and a space is mapped to 26.
    * The same applies to lowercase letters.
-   * a = 0, A = 0, z = 25, Z = 25.
+   * a = 0, A = 0, ... z = 25, Z = 25.
    *
    * @param plainText: the input String to be encrypted
    * @return encryptedArray: the resulting array of Integers which
@@ -83,6 +84,8 @@ public class Driver_lab1 {
         result.append(" ");
       }
     }
+
+    // Print out the result. Not necessary for test cases but helpful.
     System.out.println(result);
     return encryptedArray;
   }
