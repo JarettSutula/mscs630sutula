@@ -24,13 +24,13 @@ public class Driver_lab2a {
 	 * This function takes input line by line from a file
 	 * and runs it through euclidAlg().
 	 * @param args: Array of Strings argument list to be
-   *            passed in from the command line.
+	 *             passed in from the command line.
 	 */
 	public static void main(String[] args) {
 		Scanner input = new Scanner (System.in);
 		while(input.hasNextLine()) {
-		  long firstValue = input.nextLong();
-		  long secondValue = input.nextLong();
+			long firstValue = input.nextLong();
+			long secondValue = input.nextLong();
 
 		  if (firstValue >= secondValue) {
 		  	euclidAlg(firstValue, secondValue);
