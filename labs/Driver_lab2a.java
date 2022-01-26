@@ -32,11 +32,11 @@ public class Driver_lab2a {
 			long firstValue = input.nextLong();
 			long secondValue = input.nextLong();
 
-		  if (firstValue >= secondValue) {
-		  	euclidAlg(firstValue, secondValue);
-		  } else {
-		  	euclidAlg(secondValue, firstValue);
-		  }
+			if (firstValue >= secondValue) {
+				euclidAlg(firstValue, secondValue);
+			} else {
+				euclidAlg(secondValue, firstValue);
+			}
 		}
 		input.close();
 	}
