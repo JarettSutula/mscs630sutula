@@ -4,7 +4,7 @@
  * course: MSCS 630L
  * assignment: lab 2 - Divisibility and Modular Arithmetic
  * due date: January 30th, 2022
- * version: 1.0
+ * version: 1.2
  *
  * This file contains code to run the Extended Euclidean Algorithm.
  */
@@ -16,6 +16,8 @@ import java.util.Scanner;
  *
  * This class employs the Extended Euclidean Algorithm to find
  * the greatest common divisor between two integers as well as
+ * solve d = ax + by, where d = gcd and a, b are the values
+ * passed into the algorithm.
  */
 public class Driver_lab2b {
   /**
@@ -29,14 +31,7 @@ public class Driver_lab2b {
   public static void main(String[] args) {
     Scanner input = new Scanner (System.in);
     while(input.hasNextLine()) {
-      long firstValue = input.nextLong();
-      long secondValue = input.nextLong();
-
-      if (firstValue >= secondValue) {
-        euclidAlgExt(firstValue, secondValue);
-      } else {
-        euclidAlgExt(secondValue, firstValue);
-      }
+      euclidAlgExt(input.nextLong(), input.nextLong());
     }
     input.close();
   }
@@ -67,6 +62,14 @@ public class Driver_lab2b {
     // The final answer is d = 1, x = the most recent x1 (37) and y
     // y = the most recent y1 (-73). 1 = 148(37) + 75(-73).
 
+    boolean swapping = false;
+    // swap the inputs if necessary.
+    if (b > a) {
+      long temp = a;
+      a = b;
+      b = temp;
+      swapping = true;
+    }
     // initialize the variables of the table for first loop.
     long q = a / b;
     long r = a % b;
@@ -79,15 +82,11 @@ public class Driver_lab2b {
     long y2 = 1;
     long y = y1 - y2*q;
 
-    System.out.printf("%-5s %-5s %-5s %-5s %-5s %-5s %-5s %-5s %-5s %-5s\n",
-      "q", "a", "b", "r", "x1", "x2", "x", "y1", "y2", "y");
     // for each loop after, as long as we haven't hit b = 0...
     // a = previous b, b = previous r, q = a/b, r = a % b
     // x1 = previous x2, x2 = previous x, x = x1 - x2*q,
     // y1 = previous y2, y2 = previous y, y = y1 - y2*q.
     while (b!=0) {
-      System.out.printf("%-5d %-5d %-5d %-5d %-5d %-5d %-5d %-5d %-5d %-5d\n",
-        q, a, b, r, x1, x2, x, y1, y2, y);
       a = b;
       b = r;
       // make sure updated b != 0. If it is, q = a / b will cause an error.
@@ -105,13 +104,18 @@ public class Driver_lab2b {
         // if b is 0 now, just update the values that matter (a, b, x1, y1).
         x1 = x2;
         y1 = y2;
-        System.out.printf("%-5s %-5d %-5d %-5s %-5d %-5s %-5s %-5d %-5s %-5s\n",
-          "-", a, b, "-", x1, "-", "-", y1, "-", "-");
       }
     }
 
-    System.out.println(a + " " + x1 + " " + y1);
-    return new long[] {a, x1, y1};
+    // If we didn't swap, keep them in the same order.
+    if (!swapping) {
+      System.out.println(a + " " + x1 + " " + y1);
+      return new long[]{a, x1, y1};
+    } else {
+      // Otherwise, align the outputs with original order - It needs to match.
+      System.out.println(a + " " + y1 + " " + x1);
+      return new long[]{a, y1, x1};
+    }
   }
 
 }
