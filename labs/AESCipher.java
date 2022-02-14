@@ -1,6 +1,26 @@
-import java.security.Key;
+/**
+ * file: AESCipher.java
+ * author: Jarett Sutula
+ * course: MSCS 630L
+ * assignment: lab 4 - Generating Secure Keys
+ * due date: February 20th, 2022
+ * version: 1.1
+ *
+ * This file contains code to turn a plaintext string into
+ * a secure AES key.
+ */
 
+/**
+ * AESCipher
+ *
+ * This class contains the tables necessary for AES key encryption.
+ * It also contains helper functions to populate the key matrix (k)
+ * and the key-round holding matrix (w), as well as code to translate
+ * integer values to hex strings and vice versa.
+ */
 public class AESCipher {
+
+  // initialize tables for calculations
   public static final int[][] S_BOX = {
     {0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76},
     {0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0},
@@ -39,6 +59,16 @@ public class AESCipher {
     0x61, 0xC2, 0x9F, 0x25, 0x4A, 0x94, 0x33, 0x66, 0xCC, 0x83, 0x1D, 0x3A, 0x74, 0xE8, 0xCB, 0x8D
   };
 
+  /**
+   * aesRoundKeys
+   *
+   * This function takes the input key string and encrypts it. The input
+   * is placed into a 4x4 matrix 'k', and then the corresponding encrypted
+   * 4x44 matrix 'w' is filled. The ending result is that 'w' represents the
+   * 11 keys strung together in 11 4x4 matrices that will be returned.
+   * @param KeyHex: the 16-hex String representation of the system key
+   * @return a 11-length array of Strings that represent the round keys
+   */
   public static String[] aesRoundKeys(String KeyHex) {
     // take 32-char string and transform into 4x4, 2 hex digit matrix (k)
     int[][] k = new int[4][4];
@@ -112,6 +142,8 @@ public class AESCipher {
         line += hexDigit;
         System.out.print(hexDigit);
       }
+      // if we are at the end of a round, put the line in the array
+      // and reset the line and increment the counter.
       if ((i+1) % 4 == 0) {
         System.out.println();
         result[roundCounter] = line;
@@ -122,6 +154,16 @@ public class AESCipher {
     return result;
   }
 
+  /**
+   * aesSBox
+   *
+   * This function takes a 2-digit hex value, splits it into two
+   * separate values, and uses them as row/column indices to get
+   * the corresponding 2-digit hex value from the SBOX table.
+   *
+   * @param inHex: the integer 2-digit hex value to use for indices
+   * @return the resulting SBOX 2-digit integer value
+   */
   public static int aesSBox(int inHex) {
     // split hex into two strings, convert those back to ints and get the
     // values from sbox
@@ -140,11 +182,28 @@ public class AESCipher {
     return S_BOX[row][column];
   }
 
+  /**
+   * aesRcon
+   *
+   * This function gets a given rounds' constant from the RCON table.
+   * @param round: the integer index to get from RCON
+   * @return the resulting integer constant
+   */
   public static int aesRcon(int round) {
     // retrieve the i-th round constant Rcon(i). In this case, "round" = i.
     return RCON[round];
   }
 
+  /**
+   * getWColumn
+   *
+   * This function takes the 'w' matrix and returns a column
+   * given the index at which to get.
+   * @param wMatrix: a 2D array of integers containing the
+   *               key rounds for AES key generation.
+   * @param column: the integer index to get the column from.
+   * @return the vector of the column values from the matrix.
+   */
   public static int[] getWColumn(int[][] wMatrix, int column) {
     int[] result = new int[4];
     for (int i = 0; i < 4; i++) {
@@ -153,12 +212,34 @@ public class AESCipher {
     return result;
   }
 
+  /**
+   * setWColumn
+   *
+   * This function takes the 'w' matrix and sets values in a column
+   * given the new column values and the index at which they will be placed.
+   * @param wMatrix: a 2D array of integers to populate a column in.
+   * @param newColumn: an array of integers to place into the matrix.
+   * @param col: the integer index to place the new column into the matrix at.
+   */
   public static void setWColumn(int[][] wMatrix, int[] newColumn, int col) {
     for (int i = 0; i < wMatrix.length; i++) {
       wMatrix[i][col] = newColumn[i];
     }
   }
 
+  /**
+   * twoColumnXOR
+   *
+   * This function takes two columns from w (in this case, vectors)
+   * and runs bitwise XOR between all of their values. The resulting values
+   * are stored in a temporary 'vector' and returned.
+   * @param first: the first array of ints (column) to be XOR'd
+   *             with the second array.
+   * @param second: the second array of ints (column) to be XOR'd
+   *              with the first array.
+   * @return an array of ints that have the XOR results between the
+   * every value of first and second.
+   */
   public static int[] twoColumnXOR(int[] first, int[] second) {
     int[] temp = new int[first.length];
     for (int i = 0; i < temp.length; i++) {
@@ -168,4 +249,3 @@ public class AESCipher {
   }
 
 }
-
