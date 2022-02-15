@@ -69,7 +69,7 @@ public class AESCipher {
    * @param KeyHex: the 16-hex String representation of the system key
    * @return a 11-length array of Strings that represent the round keys
    */
-  public static String[] aesRoundKeys(String KeyHex) {
+  public static String[] AESRoundKeys(String KeyHex) {
     // take 32-char string and transform into 4x4, 2 hex digit matrix (k)
     int[][] k = new int[4][4];
     // implement the 4x44 matrix (w) that holds the 11 keys for output.

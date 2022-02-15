@@ -33,7 +33,7 @@ public class Driver_lab4 {
     Scanner input = new Scanner(System.in);
     String keyHex = input.nextLine();
     input.close();
-    String[] roundKeysHex = AESCipher.aesRoundKeys(keyHex);
+    String[] roundKeysHex = AESCipher.AESRoundKeys(keyHex);
   }
 
 }
