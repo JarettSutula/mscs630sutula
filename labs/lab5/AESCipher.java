@@ -4,7 +4,7 @@
  * course: MSCS 630L
  * assignment: lab 5 - AES Basic functions
  * due date: March 6th, 2022
- * version: 1.1
+ * version: 1.2
  *
  * This file contains code to encrypt plaintext using AES
  * with a given plaintext string and key.
@@ -142,12 +142,12 @@ public class AESCipher {
           hexDigit = paddedHex + hexDigit;
         }
         line += hexDigit;
-        System.out.print(hexDigit);
+        //System.out.print(hexDigit);
       }
       // if we are at the end of a round, put the line in the array
       // and reset the line and increment the counter.
       if ((i+1) % 4 == 0) {
-        System.out.println();
+        //System.out.println();
         result[roundCounter] = line;
         line = "";
         roundCounter++;
@@ -265,13 +265,23 @@ public class AESCipher {
     int[][] tempMatrix = new int[4][4];
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < 4; j++) {
+        // take the resulting XOR values at [i][j] and set in output matrix
         tempMatrix[i][j] = sHex[i][j] ^ keyHex[i][j];
       }
     }
     return tempMatrix;
   }
 
-
+  /**
+   * AESNibbleSub
+   *
+   * This function takes a single input 4x4 matrix of ints and runs
+   * the 'AES Nibble Substitution' operation on it, returning an equally
+   * sized matrix using SBOX and its correlating function (aesSBox).
+   * @param inStateHex: a 4x4 matrix of ints to be put through
+   *                  Nibble Substitution
+   * @return a 4x4 int matrix of the resulting SBOX values
+   */
   public static int[][] AESNibbleSub(int[][] inStateHex) {
     int[][] tempMatrix = new int[4][4];
     for (int i = 0; i < 4; i++) {
@@ -282,6 +292,16 @@ public class AESCipher {
     return tempMatrix;
   }
 
+  /**
+   * AESShiftRow
+   *
+   * This functions takes an input matrix and shifts the first row
+   * 0 spaces to the left, the 2nd row 1 space to the left, the third
+   * row 2 spaces to the left, and the 4th row 3 spaces to the left,
+   * all according to AES' operation "Shift Rows".
+   * @param inStateHex: a 4x4 matrix of ints to be put through Shift Rows
+   * @return a 4x4 int matrix representing the shifted input matrix.
+   */
   public static int[][] AESShiftRow(int[][] inStateHex) {
     // row 0 = 0, row 1 = 1 left, row 2 = 2 left, row 3 = 3 left
     int[][] tempMatrix = new int[4][4];
@@ -298,12 +318,17 @@ public class AESCipher {
     return tempMatrix;
   }
 
+  /**
+   * AESMixColumn
+   *
+   * This function takes an input matrix and performs the "Mix Columns"
+   * AES operation. This is done by mapping each column of the input matrix
+   * against a 4x4 galois field to calculate the column values of the output
+   * matrix.
+   * @param inStateHex: a 4x4 matrix of ints to be put through Mix Columns
+   * @return a 4x4 int matrix representing the mixed column results
+   */
   public static int[][] AESMixColumn(int[][] inStateHex) {
-    // Galois field
-    // 2 3 1 1
-    // 1 2 3 1
-    // 1 1 2 3
-    // 3 1 1 2
     int[][] tempMatrix = new int[4][4];
     int[][] a = new int[4][4];
     int[][] b = new int[4][4];
@@ -327,6 +352,11 @@ public class AESCipher {
       }
 
       // for each column, set their values according to galois.
+      // Galois field
+      // 2 3 1 1
+      // 1 2 3 1
+      // 1 1 2 3
+      // 3 1 1 2
       tempMatrix[0][i] = b[0][i] ^ a[3][i] ^ a[2][i] ^ b[1][i] ^ a[1][i];
       tempMatrix[1][i] = b[1][i] ^ a[0][i] ^ a[3][i] ^ b[2][i] ^ a[2][i];
       tempMatrix[2][i] = b[2][i] ^ a[1][i] ^ a[0][i] ^ b[3][i] ^ a[3][i];
@@ -335,6 +365,17 @@ public class AESCipher {
     return tempMatrix;
   }
 
+  /**
+   * AES
+   *
+   * This function combines the independent AES function into a single function
+   * that, given a plaintext string and key string, returns the AES encrypted
+   * ciphertext.
+   * @param pTextHex: the 16 digit hex plaintext as a String
+   * @param keyHex: the 16 digit hex AES secure round key as a String
+   * @return the 16 length String of the resulting encrypted ciphertext in
+   * an array of length 1
+   */
   public static String[] AES(String pTextHex, String keyHex) {
     // get the round keys from the keyHex string
     String[] roundKeys = AESRoundKeys(keyHex);
@@ -369,9 +410,18 @@ public class AESCipher {
 
     // Unit tests want it back in an array.
     String[] arr = { result };
+    System.out.println(arr[0]);
     return arr;
   }
 
+  /**
+   * changeToHex
+   *
+   * This function takes a 16-digit hex String and translates it into
+   * the common 4x4 matrix used in AES basic functions.
+   * @param hexString: the 16 digit hex String to be converted
+   * @return a 4x4 matrix of ints representing the hex String
+   */
   public static int[][] changeToHex(String hexString) {
     int[][] hex = new int[4][4];
     int keyIndex = 0;

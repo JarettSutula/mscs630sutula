@@ -5,14 +5,19 @@
  * assignment: lab 5 - AES Basic Functions
  *
  * due date: March 6th, 2022
- * version: 1.0
+ * version: 1.1
  *
+ * This code takes an inputted plaintext and key string
+ * and encrypts the plaintext using AES to generate secure
+ * round keys and AES basic functions to encrypt the text.
  */
 import java.util.Scanner;
 
 /**
  * Driver_lab5
  *
+ * This class contains code to take inputs from a file
+ * and run AES functions on them.
  */
 public class Driver_lab5 {
 
@@ -30,10 +35,7 @@ public class Driver_lab5 {
     String keyHexText = input.nextLine();
     String plainText = input.nextLine();
     input.close();
-//    String plainText = "54776F204F6E65204E696E652054776F";
-//    String keyHexText = "5468617473206D79204B756E67204675";
     String[] cTextHex = AESCipher.AES(plainText, keyHexText);
-    System.out.println(cTextHex[0]);
   }
 }
 
