@@ -1,0 +1,73 @@
+{% load static %}
+{% include "navigation.html" %}
+
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/formstyle.css' %}">
+{% block content %}
+
+{% if submitted %}
+<body style="background-color: #66a2ba;">
+    <div>
+        <p class = "success">
+            Your credentials were successfully added. Thank you.
+            <a href= "\">Click here to go back.</a>
+        </p>
+    </div>
+</body>
+{% elif request.session.username %}
+<body style="background-color: #66a2ba;">
+    <div>
+        <h2 class="formheader"> Add a new website credential, {{ request.session.username }}!</h2>
+    </div>
+
+    <form class="addcredentialform" action="" method="POST" novalidate>
+        <div class = "addcredentialblock">
+            <div class = "fieldWrapper" style="color: #243a47">
+                {{ form.website.label_tag }}
+                {{ form.website }}
+                {{ form.website.errors }}
+            </div>
+            <div class = "fieldWrapper" style="color: #243a47">
+                {{ form.website_username.label_tag }}
+                {{ form.website_username }}
+                {{ form.website_username.errors }}
+            </div>
+            <div class = "fieldWrapper" style="color: #243a47">
+                {{ form.website_password.label_tag }}
+                {{ form.website_password }}
+                {{ form.website_password.errors }}
+            </div>
+            <div class = "fieldWrapper" style="color: #243a47">
+                {{ form.account_username.label_tag }}
+                {{ form.account_username }}
+                {{ form.account_username.errors }}
+            </div>
+            <div class = "fieldWrapper" style="color: #243a47">
+                {{ form.account_password.label_tag }}
+                {{ form.account_password }}
+                {{ form.account_password.errors }}
+            </div>
+        </div>
+        <div class = fieldWrapper>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" value="Submit"></td>
+            </tr>
+        </div>  
+        {% csrf_token %}
+    </form>
+</body>
+{% else %}
+<body style="background-color: #66a2ba;">
+    <div>
+        <h2 class="formheader" style="color: #243a47"> Please log in! </h2>
+        <a class="formheader" style="color: #243a47" href ="/login">
+            <h3 style="color: #243a47"> Login </h3>
+        </a>
+    </div>
+</body>
+{% endif %}
+{% endblock content %}

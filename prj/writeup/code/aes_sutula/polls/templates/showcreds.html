@@ -1,0 +1,60 @@
+{% load static %}
+{% include "navigation.html" %}
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+{% block content %}
+
+{% if submitted %}
+<body style="background-color: #66a2ba;">
+    <div class = profileinfo>
+        <strong>Credentials:</strong><br>
+            {% for credential in creds %}
+                Website: {{ credential.website }}<br>
+                Website Username: {{ credential.website_username}}<br>
+                Website Password: {{ credential.website_password}}<br><br>
+            {% endfor %}
+    </div>
+</body>
+
+{% elif request.session.username %}
+<body style="background-color: #66a2ba;">
+    <div>
+        <h2 class="formheader" style="color: #243a47"> Please verify your password to access your credentials, {{ request.session.username }}!</h2>
+    </div>
+
+    <form class="showcredentialform" action="" method="post" novalidate>
+        <div class = "showcredentialblock">
+            <div class = "fieldWrapper" style="color: #243a47">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+            <div class = "fieldWrapper" style="color: #243a47">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+        </div>
+        <div class = fieldWrapper>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" value="Submit"></td>
+            </tr>
+        </div>  
+        {% csrf_token %}
+    </form>
+</body>
+{% else %}
+<body style="background-color: #66a2ba;">
+    <div>
+        <h2 class="formheader" style="color: #243a47"> Please log in! </h2>
+        <a class="formheader" href ="/login" style="color: #243a47">
+            <h3 style="color: #243a47"> Login </h3>
+        </a>
+    </div>
+</body>    
+
+{% endif %}
+{% endblock content %}

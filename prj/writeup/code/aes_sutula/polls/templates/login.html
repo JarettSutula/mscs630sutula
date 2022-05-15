@@ -1,0 +1,27 @@
+{% load static %}
+{% include "navigation.html" %}
+{% block content %}
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+
+{% if request.session.username %}
+<body style="background-color: #66a2ba;"></body>
+{% else %}
+<body style="background-color: #66a2ba;">
+    <form class="form" action="" method="post" novalidate>
+    <div class = "fieldWrapper" style="color: #243a47">
+        <table id="loginformtable" aria-describedby="loginform">
+        {{ form.as_table }}
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value="Submit"></td>
+        </tr>
+        </table>
+        {% csrf_token %}
+    </div>
+    </form>
+</body>
+{% endif %}
+{% endblock content %}

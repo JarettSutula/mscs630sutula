@@ -1,0 +1,43 @@
+topblock {
+    display: inline-block;
+    width:172px;
+}
+
+midblock {
+    display: inline-block;
+    width:255px;
+}
+
+botblock {
+    display: inline-block;
+    width:162px;
+}
+
+submitbutton {
+    display: inline-block;
+    width:120px;
+}
+
+#id_website {
+    width: 200px;
+}
+
+#id_website_username{
+    width: 200px;
+}
+
+#id_website_password {
+    width: 200px;
+}
+
+#id_account_username {
+    width: 200px;
+}
+
+#id_account_password {
+    width: 200px;
+}
+
+div.fieldWrapper {
+    width: 200px;
+}

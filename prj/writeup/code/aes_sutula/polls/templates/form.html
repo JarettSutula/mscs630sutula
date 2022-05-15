@@ -1,0 +1,44 @@
+{% load static %}
+{% include "navigation.html" %}
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/formstyle.css' %}">
+
+{% block content %}
+  
+{% if submitted %}
+    <body style="background-color: #66a2ba;">
+        <p class="success">
+            Your user was submitted successfully. Thank you.
+        </p>
+    </body>
+ 
+{% else %}
+    <body style="background-color: #66a2ba;">
+        <form class="form" action="" method="post" novalidate>
+        <div class = "fieldWrapper" style="color: #243a47">
+            <topblock>{{ form.username.label_tag }}</topblock>
+            {{ form.username }}
+            {{ form.username.errors }}
+        </div>
+        <div class = "fieldWrapper" style="color: #243a47">
+            <topblock>{{ form.password.label_tag }}</topblock>
+            {{ form.password }}
+            {{ form.password.errors }}
+        </div>
+        <div class = "fieldWrapper" style="color: #243a47">
+            <topblock>{{ form.email.label_tag }}</topblock>
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <tr>
+        <td>&nbsp;</td>
+        <td><input type="submit" value="Submit" style="position:relative; top:5px;"></td>
+        </tr>
+        {% csrf_token %}
+        </form>
+    </body>
+ {% endif %}
+ {% endblock content %}

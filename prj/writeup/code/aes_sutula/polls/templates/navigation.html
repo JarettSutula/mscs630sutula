@@ -1,0 +1,13 @@
+<!-- Navigation -->
+<nav class="w3-bar w3-black">
+    <a href="/" class="w3-button w3-bar-item">Home</a>
+    {% if request.session.username %}
+        <a href="/login" class="w3-button w3-bar-item w3-hover-red">Logout</a>
+        <a href="/addcredentials" class="w3-button w3-bar-item w3-hover-blue">Add Credentials</a>
+        <a href="/showcreds" class="w3-button w3-bar-item w3-hover-green">Show Credentials</a>
+        <a class="w3-button w3-bar-item w3-right">logged in as <span style="color: #ff0000">{{ request.session.username }}</span></a>
+    {% else %}
+    <a href="/login" class="w3-button w3-bar-item w3-hover-green">Login</a>
+    <a href="/createuser" class="w3-button w3-bar-item w3-hover-blue">Create User</a>
+    {% endif %}
+</nav>
